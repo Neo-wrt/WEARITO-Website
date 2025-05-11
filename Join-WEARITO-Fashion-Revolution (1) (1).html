@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEARITO - Your AI-Powered Style Buddy</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#ff6b6b',secondary:'#f8f9fa'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Montserrat', sans-serif;
+color: #333;
+}
+.hero-section {
+background-image: linear-gradient(to right, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0.7) 75%, rgba(255, 255, 255, 0.5) 100%), url('https://readdy.ai/api/search-image?query=fashion%20tech%20minimalist%20scene%20with%20neutral%20tones%2C%20soft%20pink%20accents%2C%20clean%20modern%20aesthetic%2C%20high%20fashion%20clothing%20items%20arranged%20elegantly%2C%20soft%20lighting%2C%20professional%20photography%20style%2C%20fashion%20forward%2C%20high-end%20boutique%20atmosphere&width=1200&height=800&seq=1&orientation=landscape');
+background-size: cover;
+background-position: center;
+}
+input:focus {
+outline: none;
+border-color: #ff6b6b;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-color: #fff;
+border: 2px solid #e2e8f0;
+border-radius: 4px;
+cursor: pointer;
+transition: all 0.2s;
+}
+.custom-checkbox.checked {
+background-color: #ff6b6b;
+border-color: #ff6b6b;
+}
+.custom-checkbox.checked::after {
+content: '';
+position: absolute;
+top: 3px;
+left: 6px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.benefit-card {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.benefit-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.testimonial-card {
+transition: transform 0.3s ease;
+}
+.testimonial-card:hover {
+transform: translateY(-5px);
+}
+@media (max-width: 768px) {
+.hero-section {
+background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 60%, rgba(255, 255, 255, 0.8) 100%), url('https://readdy.ai/api/search-image?query=fashion%20tech%20minimalist%20scene%20with%20neutral%20tones%2C%20soft%20pink%20accents%2C%20clean%20modern%20aesthetic%2C%20high%20fashion%20clothing%20items%20arranged%20elegantly%2C%20soft%20lighting%2C%20professional%20photography%20style%2C%20fashion%20forward%2C%20high-end%20boutique%20atmosphere&width=800&height=1000&seq=2&orientation=portrait');
+}
+}
+</style>
+</head>
+<body class="bg-white min-h-screen">
+<header class="fixed w-full bg-white bg-opacity-95 shadow-sm z-50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center py-4">
+<div class="flex items-center">
+<h1 class="text-2xl font-['Pacifico'] text-primary">WEARITO</h1>
+</div>
+<nav class="hidden md:flex space-x-8">
+<a href="#features" class="text-gray-700 hover:text-primary transition-colors">Features</a>
+<a href="#testimonials" class="text-gray-700 hover:text-primary transition-colors">Testimonials</a>
+<a href="#signup" class="text-gray-700 hover:text-primary transition-colors">Join Waitlist</a>
+</nav>
+<div class="md:hidden w-8 h-8 flex items-center justify-center">
+<i class="ri-menu-line ri-lg text-gray-700"></i>
+</div>
+</div>
+</div>
+</header>
+<main>
+<section class="hero-section pt-24 md:pt-32 pb-16 md:pb-24">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row items-center">
+<div class="w-full md:w-1/2 mb-10 md:mb-0">
+<h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Your AI-Powered Style Buddy</h1>
+<p class="text-lg md:text-xl text-gray-700 mb-8 max-w-lg">Discover outfit ideas, style recommendations, and global fashion insights effortlessly through our smart fashion assistant.</p>
+<div class="flex flex-col sm:flex-row gap-4 mb-8">
+<a href="#signup" class="bg-primary text-white px-8 py-3 !rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap text-center">Join the Waitlist</a>
+<a href="#features" class="border border-gray-300 text-gray-700 px-8 py-3 !rounded-button font-medium hover:bg-gray-50 transition-all whitespace-nowrap text-center">Learn More</a>
+</div>
+<div class="flex items-center text-sm text-gray-600">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-shield-check-line ri-lg text-primary"></i>
+</div>
+<span>Join 2,500+ fashion enthusiasts on the waitlist</span>
+</div>
+</div>
+<div class="w-full md:w-1/2 flex justify-center">
+<img src="https://readdy.ai/api/search-image?query=smartphone%20displaying%20a%20fashion%20app%20interface%20with%20outfit%20suggestions%2C%20clean%20modern%20UI%2C%20minimalist%20design%2C%20soft%20colors%2C%20showing%20clothing%20items%20and%20style%20recommendations%2C%20high-quality%20professional%20product%20photography&width=500&height=600&seq=3&orientation=portrait" alt="WEARITO App Interface" class="rounded-xl shadow-xl max-w-full h-auto object-cover object-top">
+</div>
+</div>
+</div>
+</section>
+<section id="features" class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">Why Join WEARITO?</h2>
+<p class="text-lg text-gray-600 max-w-2xl mx-auto">Elevate your style game with our AI-powered fashion assistant</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="benefit-card bg-white p-8 rounded-xl shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6">
+<i class="ri-t-shirt-2-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-3">Daily Outfit Suggestions</h3>
+<p class="text-gray-600">Get personalized outfit recommendations tailored to your style preferences, body type, and current wardrobe.</p>
+</div>
+<div class="benefit-card bg-white p-8 rounded-xl shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6">
+<i class="ri-global-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-3">Global Fashion Insights</h3>
+<p class="text-gray-600">Stay updated with the latest trends and fashion tips from around the world, curated specifically for you.</p>
+</div>
+<div class="benefit-card bg-white p-8 rounded-xl shadow-md">
+<div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mb-6">
+<i class="ri-vip-crown-line ri-xl text-primary"></i>
+</div>
+<h3 class="text-xl font-semibold mb-3">Early Access Benefits</h3>
+<p class="text-gray-600">Be among the first to try new features and get exclusive access to the next wave of smart fashion tools.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">Virtual Try-On Experience</h2>
+<p class="text-lg text-gray-600 max-w-2xl mx-auto">Mix and match different outfits on our realistic 3D model</p>
+</div>
+<div class="flex flex-col md:flex-row items-start gap-12">
+<div class="w-full md:w-2/3">
+<div id="3d-model-container" class="w-full h-[600px] bg-white rounded-xl shadow-lg overflow-hidden"></div>
+<div class="flex justify-center mt-4 space-x-4">
+<button id="rotate-left" class="px-4 py-2 bg-white border border-gray-200 !rounded-button hover:bg-gray-50 transition-all whitespace-nowrap">
+<i class="ri-rotate-left-line mr-1"></i> Rotate Left
+</button>
+<button id="rotate-right" class="px-4 py-2 bg-white border border-gray-200 !rounded-button hover:bg-gray-50 transition-all whitespace-nowrap">
+<i class="ri-rotate-right-line mr-1"></i> Rotate Right
+</button>
+</div>
+</div>
+<div class="w-full md:w-1/3 bg-white rounded-xl shadow-lg p-6">
+<h3 class="text-xl font-semibold mb-6">Choose Outfit</h3>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="clothing-category active px-4 py-2 text-sm border border-primary text-primary bg-primary bg-opacity-10 !rounded-button">Tops</button>
+<button class="clothing-category px-4 py-2 text-sm border border-gray-200 hover:border-primary hover:text-primary !rounded-button">Bottoms</button>
+<button class="clothing-category px-4 py-2 text-sm border border-gray-200 hover:border-primary hover:text-primary !rounded-button">Dresses</button>
+<button class="clothing-category px-4 py-2 text-sm border border-gray-200 hover:border-primary hover:text-primary !rounded-button">Outerwear</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">Style</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="clothing-item cursor-pointer p-2 border border-gray-200 rounded-lg hover:border-primary">
+<img src="https://readdy.ai/api/search-image?query=white%20cotton%20t-shirt%20on%20plain%20background%2C%20minimalist%20product%20photography%2C%20clean%20lighting&width=200&height=200&seq=8&orientation=squarish" alt="Basic T-Shirt" class="w-full h-24 object-cover rounded-lg mb-2">
+<p class="text-sm font-medium">Basic T-Shirt</p>
+<p class="text-xs text-gray-500">$29.99</p>
+</div>
+<div class="clothing-item cursor-pointer p-2 border border-gray-200 rounded-lg hover:border-primary">
+<img src="https://readdy.ai/api/search-image?query=black%20silk%20blouse%20on%20plain%20background%2C%20minimalist%20product%20photography%2C%20clean%20lighting&width=200&height=200&seq=9&orientation=squarish" alt="Silk Blouse" class="w-full h-24 object-cover rounded-lg mb-2">
+<p class="text-sm font-medium">Silk Blouse</p>
+<p class="text-xs text-gray-500">$89.99</p>
+</div>
+<div class="clothing-item cursor-pointer p-2 border border-gray-200 rounded-lg hover:border-primary">
+<img src="https://readdy.ai/api/search-image?query=striped%20sweater%20on%20plain%20background%2C%20minimalist%20product%20photography%2C%20clean%20lighting&width=200&height=200&seq=10&orientation=squarish" alt="Striped Sweater" class="w-full h-24 object-cover rounded-lg mb-2">
+<p class="text-sm font-medium">Striped Sweater</p>
+<p class="text-xs text-gray-500">$59.99</p>
+</div>
+<div class="clothing-item cursor-pointer p-2 border border-gray-200 rounded-lg hover:border-primary">
+<img src="https://readdy.ai/api/search-image?query=denim%20jacket%20on%20plain%20background%2C%20minimalist%20product%20photography%2C%20clean%20lighting&width=200&height=200&seq=11&orientation=squarish" alt="Denim Jacket" class="w-full h-24 object-cover rounded-lg mb-2">
+<p class="text-sm font-medium">Denim Jacket</p>
+<p class="text-xs text-gray-500">$79.99</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="w-full md:w-1/2">
+<h3 class="text-2xl font-bold mb-4">Virtual Try-On Experience</h3>
+<p class="text-gray-600 mb-6">Our advanced 3D modeling technology allows you to:</p>
+<ul class="space-y-4">
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-3 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">View clothing items from any angle</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-3 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">Examine fabric textures and details up close</span>
+</li>
+<li class="flex items-start">
+<div class="w-6 h-6 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-3 mt-1">
+<i class="ri-check-line text-primary"></i>
+</div>
+<span class="text-gray-700">See how garments move and drape</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 md:py-24">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row items-center gap-12">
+<div class="w-full md:w-1/2">
+<img src="https://readdy.ai/api/search-image?query=person%20using%20smartphone%20with%20fashion%20app%2C%20looking%20at%20outfit%20suggestions%2C%20modern%20casual%20setting%2C%20soft%20natural%20lighting%2C%20minimalist%20interior%2C%20fashion-forward%20individual%20smiling%20at%20phone%20screen%2C%20professional%20lifestyle%20photography&width=600&height=500&seq=4&orientation=landscape" alt="Using WEARITO" class="rounded-xl shadow-lg max-w-full h-auto object-cover object-top">
+</div>
+<div class="w-full md:w-1/2">
+<h2 class="text-3xl md:text-4xl font-bold mb-6">How WEARITO Works</h2>
+<div class="space-y-6">
+<div class="flex items-start">
+<div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+<span class="font-semibold text-primary">1</span>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-2">Tell us about your style</h3>
+<p class="text-gray-600">Answer a few questions about your preferences, body type, and current wardrobe to help our AI understand your unique style.</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+<span class="font-semibold text-primary">2</span>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-2">Get personalized recommendations</h3>
+<p class="text-gray-600">Receive daily outfit suggestions and style tips tailored specifically for you. Based on your budget, theme, and body type</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+<span class="font-semibold text-primary">3</span>
+</div>
+<div>
+<h3 class="text-xl font-semibold mb-2">Refine your style over time</h3>
+<p class="text-gray-600">Our AI learns from your feedback to continuously improve recommendations and help you evolve your personal style.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="testimonials" class="py-16 md:py-24 bg-gray-50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">What Our Early Users Say</h2>
+<p class="text-lg text-gray-600 max-w-2xl mx-auto">Hear from fashion enthusiasts who've already experienced WEARITO</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+<div class="flex items-center mb-6">
+<div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-4">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20woman%20with%20medium%20length%20hair%2C%20neutral%20expression%2C%20clean%20background%2C%20high%20quality%20portrait&width=100&height=100&seq=5&orientation=squarish" alt="Emily Chen" class="w-full h-full object-cover object-top">
+</div>
+<div>
+<h4 class="font-semibold">Emily Chen</h4>
+<p class="text-sm text-gray-500">Marketing Executive</p>
+</div>
+</div>
+<p class="text-gray-600 mb-4">"I never stress about what to wear anymore! WEARITO has completely transformed my morning routine. The outfit suggestions are spot-on for my style and body type, and I've received so many compliments since I started using it."</p>
+<div class="flex text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+</div>
+</div>
+<div class="testimonial-card bg-white p-8 rounded-xl shadow-md">
+<div class="flex items-center mb-6">
+<div class="w-12 h-12 bg-gray-200 rounded-full overflow-hidden mr-4">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20man%20with%20short%20hair%2C%20neutral%20expression%2C%20clean%20background%2C%20high%20quality%20portrait&width=100&height=100&seq=6&orientation=squarish" alt="Marcus Johnson" class="w-full h-full object-cover object-top">
+</div>
+<div>
+<h4 class="font-semibold">Marcus Johnson</h4>
+<p class="text-sm text-gray-500">UX Designer</p>
+</div>
+</div>
+<p class="text-gray-600 mb-4">"As someone who's always been fashion-challenged, WEARITO has been a game-changer. The AI somehow understands my style better than I do! It's like having a personal stylist in my pocket that actually gets me."</p>
+<div class="flex text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-half-fill"></i>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="signup" class="py-16 md:py-24 bg-white">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="max-w-3xl mx-auto bg-gray-50 rounded-2xl shadow-lg overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="w-full md:w-1/2 p-8 md:p-12">
+<h2 class="text-3xl font-bold mb-6">Be the First to Try</h2>
+<p class="text-gray-600 mb-8">Join our exclusive waitlist and be among the first to experience the future of fashion assistance.</p>
+<form id="waitlist-form" class="space-y-4">
+<button type="button" id="google-sign-in" class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 py-3 !rounded-button font-medium hover:bg-gray-50 transition-all whitespace-nowrap mb-4">
+<i class="ri-google-fill text-xl"></i>
+Sign up with Google
+</button>
+<div class="relative flex items-center justify-center text-gray-500 my-4">
+<div class="absolute w-full border-t border-gray-200"></div>
+<div class="relative bg-gray-50 px-4 text-sm">or continue with email</div>
+</div>
+<div>
+<label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+<input type="text" id="name" name="name" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all" placeholder="Your name">
+</div>
+<div>
+<label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+<input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:ring-opacity-50 transition-all" placeholder="you@example.com">
+</div>
+<div class="flex items-start">
+<div class="flex items-center h-5">
+<div id="privacy-checkbox" class="custom-checkbox"></div>
+</div>
+<div class="ml-3 text-sm">
+<label for="privacy-checkbox" class="font-medium text-gray-700">I agree to the <a href="#" class="text-primary hover:underline">Privacy Policy</a> and <a href="#" class="text-primary hover:underline">Terms of Service</a></label>
+</div>
+</div>
+<button type="submit" class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap">Join the Waitlist</button>
+</form>
+</div>
+<div class="w-full md:w-1/2 bg-cover bg-center hidden md:block" style="background-image: url('https://readdy.ai/api/search-image?query=fashion%20tech%20concept%2C%20person%20using%20smartphone%20with%20fashion%20app%2C%20elegant%20clothing%20items%20in%20background%2C%20soft%20lighting%2C%20minimalist%20aesthetic%2C%20fashion%20forward%2C%20high-end%20boutique%20atmosphere%2C%20professional%20photography&width=600&height=800&seq=7&orientation=portrait')"></div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-gray-900 text-white py-12">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div>
+<h3 class="text-xl font-['Pacifico'] text-primary mb-4">WEARITO</h3>
+<p class="text-gray-400 mb-4">Your AI-Powered Style Buddy that helps you discover outfit ideas and style recommendations effortlessly.</p>
+<div class="flex space-x-4">
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+<i class="ri-instagram-line"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+<i class="ri-twitter-x-line"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+<i class="ri-facebook-fill"></i>
+</a>
+<a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-primary transition-colors">
+<i class="ri-linkedin-fill"></i>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Company</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Press</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Resources</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Style Guide</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Fashion Tips</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Support</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-semibold mb-4">Legal</h4>
+<ul class="space-y-2">
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
+<li><a href="#" class="text-gray-400 hover:text-white transition-colors">GDPR</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+<p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 WEARITO. All rights reserved.</p>
+<div class="flex space-x-4">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-visa-line ri-lg text-gray-400"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-mastercard-line ri-lg text-gray-400"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-paypal-line ri-lg text-gray-400"></i>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-apple-fill ri-lg text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const privacyCheckbox = document.getElementById('privacy-checkbox');
+privacyCheckbox.addEventListener('click', function() {
+this.classList.toggle('checked');
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+const googleSignInButton = document.getElementById('google-sign-in');
+googleSignInButton.addEventListener('click', function() {
+google.accounts.id.initialize({
+client_id: 'YOUR_GOOGLE_CLIENT_ID',
+callback: handleGoogleSignIn
+});
+google.accounts.id.prompt();
+});
+
+function handleGoogleSignIn(response) {
+const credential = response.credential;
+const decodedToken = JSON.parse(atob(credential.split('.')[1]));
+const name = decodedToken.name;
+const email = decodedToken.email;
+
+document.getElementById('name').value = name;
+document.getElementById('email').value = email;
+}
+
+const waitlistForm = document.getElementById('waitlist-form');
+waitlistForm.addEventListener('submit', function(e) {
+e.preventDefault();
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const privacyCheckbox = document.getElementById('privacy-checkbox');
+if (!nameInput.value.trim()) {
+alert('Please enter your name');
+return;
+}
+if (!emailInput.value.trim()) {
+alert('Please enter your email');
+return;
+}
+if (!privacyCheckbox.classList.contains('checked')) {
+alert('Please agree to the Privacy Policy and Terms of Service');
+return;
+}
+alert('Thank you for joining the waitlist! We\'ll notify you when WEARITO is ready.');
+waitlistForm.reset();
+privacyCheckbox.classList.remove('checked');
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+let scene, camera, renderer, controls;
+let model;
+const container = document.getElementById('3d-model-container');
+if (container) {
+scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
+camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+camera.position.set(0, 0, 8);
+camera.lookAt(0, 0, 0);
+renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
+function createRealisticModel() {
+const group = new THREE.Group();
+// Create more detailed body parts with smoother geometry
+const bodyMaterial = new THREE.MeshPhongMaterial({
+color: 0xf5f5f5,
+shininess: 30,
+specular: 0x444444
+});
+// Torso
+const torsoGeometry = new THREE.CylinderGeometry(0.4, 0.35, 1.2, 32, 4);
+const torso = new THREE.Mesh(torsoGeometry, bodyMaterial);
+torso.position.y = 0.2;
+group.add(torso);
+// Hips
+const hipsGeometry = new THREE.CylinderGeometry(0.35, 0.4, 0.3, 32);
+const hips = new THREE.Mesh(hipsGeometry, bodyMaterial);
+hips.position.y = -0.45;
+group.add(hips);
+// Chest
+const chestGeometry = new THREE.SphereGeometry(0.4, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+const chest = new THREE.Mesh(chestGeometry, bodyMaterial);
+chest.position.y = 0.8;
+chest.scale.z = 0.8;
+group.add(chest);
+// Head
+const headGeometry = new THREE.SphereGeometry(0.22, 32, 32);
+const head = new THREE.Mesh(headGeometry, bodyMaterial);
+head.position.y = 1.3;
+group.add(head);
+// Neck
+const neckGeometry = new THREE.CylinderGeometry(0.12, 0.14, 0.3, 32);
+const neck = new THREE.Mesh(neckGeometry, bodyMaterial);
+neck.position.y = 1.1;
+group.add(neck);
+// Arms
+const createArm = (side) => {
+const armGroup = new THREE.Group();
+// Upper arm
+const upperArmGeometry = new THREE.CylinderGeometry(0.08, 0.07, 0.6, 32);
+const upperArm = new THREE.Mesh(upperArmGeometry, bodyMaterial);
+upperArm.position.y = -0.3;
+armGroup.add(upperArm);
+// Forearm
+const forearmGeometry = new THREE.CylinderGeometry(0.07, 0.06, 0.6, 32);
+const forearm = new THREE.Mesh(forearmGeometry, bodyMaterial);
+forearm.position.y = -0.9;
+armGroup.add(forearm);
+armGroup.position.y = 0.7;
+armGroup.position.x = side * 0.5;
+armGroup.rotation.z = side * Math.PI / 12;
+return armGroup;
+};
+group.add(createArm(1));  // Right arm
+group.add(createArm(-1)); // Left arm
+// Legs
+const createLeg = (side) => {
+const legGroup = new THREE.Group();
+// Thigh
+const thighGeometry = new THREE.CylinderGeometry(0.12, 0.1, 0.8, 32);
+const thigh = new THREE.Mesh(thighGeometry, bodyMaterial);
+thigh.position.y = -0.4;
+legGroup.add(thigh);
+// Calf
+const calfGeometry = new THREE.CylinderGeometry(0.1, 0.08, 0.8, 32);
+const calf = new THREE.Mesh(calfGeometry, bodyMaterial);
+calf.position.y = -1.2;
+legGroup.add(calf);
+legGroup.position.x = side * 0.2;
+legGroup.position.y = -0.6;
+return legGroup;
+};
+group.add(createLeg(1));  // Right leg
+group.add(createLeg(-1)); // Left leg
+return group;
+}
+model = createRealisticModel();
+scene.add(model);
+// Add clothing selection functionality
+document.querySelectorAll('.clothing-category').forEach(button => {
+button.addEventListener('click', function() {
+document.querySelectorAll('.clothing-category').forEach(btn => btn.classList.remove('active'));
+this.classList.add('active');
+// Update clothing items display based on category
+});
+});
+document.querySelectorAll('.clothing-item').forEach(item => {
+item.addEventListener('click', function() {
+document.querySelectorAll('.clothing-item').forEach(i => i.classList.remove('border-primary'));
+this.classList.add('border-primary');
+// Update 3D model clothing
+});
+});
+// Main light
+const mainLight = new THREE.DirectionalLight(0xffffff, 1);
+mainLight.position.set(5, 5, 5);
+scene.add(mainLight);
+// Fill light
+const fillLight = new THREE.DirectionalLight(0xffffff, 0.7);
+fillLight.position.set(-5, 0, 5);
+scene.add(fillLight);
+// Top light
+const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
+topLight.position.set(0, 10, 0);
+scene.add(topLight);
+// Ambient light
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+scene.add(ambientLight);
+controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.enableZoom = true;
+controls.minDistance = 5;
+controls.maxDistance = 12;
+controls.enablePan = false;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1;
+const rotateLeft = document.getElementById('rotate-left');
+const rotateRight = document.getElementById('rotate-right');
+if (rotateLeft) {
+rotateLeft.addEventListener('click', () => {
+model.rotation.y += 0.5;
+});
+}
+if (rotateRight) {
+rotateRight.addEventListener('click', () => {
+model.rotation.y -= 0.5;
+});
+}
+function animate() {
+requestAnimationFrame(animate);
+controls.update();
+renderer.render(scene, camera);
+}
+animate();
+window.addEventListener('resize', () => {
+camera.aspect = container.clientWidth / container.clientHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(container.clientWidth, container.clientHeight);
+});
+}
+const mobileMenuButton = document.querySelector('.ri-menu-line').parentElement;
+const nav = document.querySelector('nav');
+mobileMenuButton.addEventListener('click', function() {
+if (nav.classList.contains('hidden')) {
+nav.classList.remove('hidden');
+nav.classList.add('flex', 'flex-col', 'absolute', 'top-16', 'left-0', 'right-0', 'bg-white', 'shadow-md', 'p-4', 'space-y-4');
+mobileMenuButton.querySelector('i').classList.remove('ri-menu-line');
+mobileMenuButton.querySelector('i').classList.add('ri-close-line');
+} else {
+nav.classList.add('hidden');
+nav.classList.remove('flex', 'flex-col', 'absolute', 'top-16', 'left-0', 'right-0', 'bg-white', 'shadow-md', 'p-4', 'space-y-4');
+mobileMenuButton.querySelector('i').classList.add('ri-menu-line');
+mobileMenuButton.querySelector('i').classList.remove('ri-close-line');
+}
+});
+});
+</script>
+</body>
+</html>
